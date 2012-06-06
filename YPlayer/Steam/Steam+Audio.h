@@ -31,6 +31,7 @@
 
 - (void)startAudio;
 - (void)stopAudio;
+- (void)resetAudio;
 - (void)signalAudioFileType;
 - (void)freeAudioQueue;
 - (void)waitForAudioStopped;

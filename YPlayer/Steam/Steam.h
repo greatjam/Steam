@@ -48,6 +48,7 @@ typedef enum SteamBufferError {
     SteamBufferErrorNotOpenCompleted,
     SteamBufferErrorHTTPStatusNotSucceeded,
     SteamBufferErrorStreamErrorOccurred,
+    SteamBufferErrorHttpRangeRequestNotSupported,
     SteamBufferErrorUnknown,
 }SteamBufferError;
 

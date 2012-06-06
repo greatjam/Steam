@@ -465,21 +465,30 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
                     CFRELEASE_SAFELY(string);
                     _totalLength = contentLength;
                 }
-                
-                string = CFHTTPMessageCopyHeaderFieldValue(_httpHeaderRef, CFSTR("Content-Type"));
-                AudioFileTypeID typeID = kAudioFileMP3Type;
-                if (string) {
-                    NSString * nsString = (NSString *)string;
-                    typeID = [Steam fileTypeFromContentType:nsString];
+                //未确定如何处理HTTP range请求不支持的情况
+                if (200 == statusCode && self.bufferedLength) {
+                    self.bufferedLength = 0;
+                    [_bufferCondition lock];
+                    [_buffers removeAllObjects];
+                    [_bufferCondition unlock];
+                    self.bufferError = SteamBufferErrorHttpRangeRequestNotSupported;
                 }
                 else {
-                    typeID = [Steam fileTypeFromURL:self.url];
+                    string = CFHTTPMessageCopyHeaderFieldValue(_httpHeaderRef, CFSTR("Content-Type"));
+                    AudioFileTypeID typeID = kAudioFileMP3Type;
+                    if (string) {
+                        NSString * nsString = (NSString *)string;
+                        typeID = [Steam fileTypeFromContentType:nsString];
+                    }
+                    else {
+                        typeID = [Steam fileTypeFromURL:self.url];
+                    }
+                    [_audioFileTypeCondition lock];
+                    _audioFileTypeHint = typeID;
+                    [_audioFileTypeCondition signal];
+                    [_audioFileTypeCondition unlock];
+                    CFRELEASE_SAFELY(string);
                 }
-                [_audioFileTypeCondition lock];
-                _audioFileTypeHint = typeID;
-                [_audioFileTypeCondition signal];
-                [_audioFileTypeCondition unlock];
-                CFRELEASE_SAFELY(string);
             }
             else {
                 [self failedBufferingReadStream:readStreamRef WithError:SteamBufferErrorHTTPStatusNotSucceeded];

@@ -124,6 +124,15 @@ void myAudioQueuePropertyListenerProc(
     }
 }
 
+- (void)resetAudio
+{
+    [_audioQueueLock lock];
+    if (_audioQueueRef) {
+        AudioQueueReset(_audioQueueRef);
+    }
+    [_audioQueueLock unlock];
+}
+
 - (void)stopAudio
 {
     [self signalAudioFileType];
