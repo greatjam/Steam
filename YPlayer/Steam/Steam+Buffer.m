@@ -25,7 +25,7 @@
 #import "SteamHelper.h"
 #import "Steam+Private.h"
 
-static const size_t MAX_BUFFER_SIZE = 256 * 1024;
+static const size_t MAX_BUFFER_SIZE = 1 * 1024;
 
 void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 
@@ -117,6 +117,15 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
         [_networkThread cancel];
         [_networkCondition unlock];
     }
+}
+
+- (BOOL)bufferThreadIsRunning
+{
+    BOOL running = NO;
+    [_networkCondition lock];
+    running = _networkThreadStarted;
+    [_networkCondition unlock];
+    return running;
 }
 
 - (void)waitForBufferingStopped
@@ -244,13 +253,13 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
                     firstRun = NO;
                 }
                 
-                [self readBufferFromReadStream:readStreamRef];
+                [self fillBuffersFromReadStream:readStreamRef];
             }
         }
             break;
         case kCFStreamEventEndEncountered:
             self.bufferState = SteamBufferFinished;
-            STEAM_LOG(STEAM_DEBUG_BUFFER, @"bufferFinished");
+            STEAM_LOG(STEAM_DEBUG_BUFFER, @"bufferFinished(%d/%d)", self.bufferedLength, self.totalLength);
             break;
         case kCFStreamEventErrorOccurred:
             @synchronized(self) {
@@ -326,7 +335,7 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
     }
 }
 
-- (void)readBufferFromReadStream:(CFReadStreamRef)readStreamRef
+- (void)fillBuffersFromReadStream:(CFReadStreamRef)readStreamRef
 {
     static UInt8 buffer[MAX_BUFFER_SIZE];
     CFIndex readLen = CFReadStreamRead(readStreamRef, buffer, MAX_BUFFER_SIZE);
@@ -369,6 +378,38 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
         
         [_bufferCondition unlock];
     }
+}
+
+- (NSUInteger)readBuffer:(const void *)buffer bufferSize:(const NSUInteger)bufferSize
+{
+    NSUInteger readSize = 0;
+    if (buffer) {
+        UInt8 * readBuffer = (UInt8 *)buffer;
+        //如果网络缓慢，会导致函数空转，应该想办法阻塞住
+        [_bufferCondition lock]; //将现有的缓存或最大bufferSize的缓存读出
+        while (readSize < bufferSize && [_buffers count]) {
+            NSData * data = [_buffers objectAtIndex:0];
+            NSUInteger dataLen = [data length];
+            NSUInteger leftSize = bufferSize - readSize;
+            if (dataLen <= leftSize) {//将data全部填充到buffer中
+                [data getBytes:readBuffer+readSize length:dataLen];
+                [_buffers removeObjectAtIndex:0];
+                readSize += dataLen;
+            }
+            else {//将data部分填充到buffer中
+                [data getBytes:readBuffer+readSize length:leftSize];
+                UInt8 * bytes = (UInt8*)data.bytes + bufferSize;
+                NSMutableData * newData = [NSMutableData dataWithBytes:bytes length:dataLen - leftSize];
+                [_buffers replaceObjectAtIndex:0 withObject:newData];
+                readSize += leftSize;
+            }
+            if (self.isFile) { //对于本地文件读取，为了减少对内存的占用，只有得到信号，才会读取下一部分
+                [_bufferCondition signal];
+            }
+        }
+        [_bufferCondition unlock];
+    }
+    return readSize;
 }
 
 - (void)handleHTTPResponseHeaderFromReadStream:(CFReadStreamRef)readStreamRef

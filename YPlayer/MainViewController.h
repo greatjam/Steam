@@ -20,7 +20,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Steam.h"
 
 @interface MainViewController : UIViewController
+{
+    NSMutableArray * _songs;
+    Steam * _steam;
+}
+@property (retain, nonatomic) IBOutlet UILabel *playtime;
+@property (retain, nonatomic) IBOutlet UIProgressView *playProgress;
+@property (retain, nonatomic) IBOutlet UIProgressView *bufferProgress;
+@property (retain, nonatomic) IBOutlet UIButton *playButton;
 
 @end

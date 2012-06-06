@@ -236,29 +236,19 @@ void myAudioQueuePropertyListenerProc(
             [_audioFileTypeCondition unlock];
             while (![self shouldExitAudioThread]) {
                 @autoreleasepool {
-                    NSData * data = nil;
-                    [_bufferCondition lock];
-                    if ([_buffers count]) {
-                        data = [_buffers objectAtIndex:0];
-#if NON_OBJC_ARC
-                        [[data retain] autorelease];
-#endif
-                        [_buffers removeObjectAtIndex:0];
-                        if (self.isFile) {
-                            [_bufferCondition signal];
+                    const int MAX = 128*1024;
+                    UInt8 buffer[MAX];
+                    NSUInteger readSize = [self readBuffer:buffer bufferSize:MAX];
+                    if (readSize) {
+                        st = AudioFileStreamParseBytes(audioFileStream, readSize, buffer, 0);
+                        if (st) {
+                            [self audioFileStream:audioFileStream failedWithOSStatus:st as:@"AudioFileStreamParseBytes"];
                         }
                     }
                     else {
-                        if (SteamBufferFinished == self.bufferState
-                            || SteamBufferFailed == self.bufferState) {
-                            self.audioState = SteamAudioFailed;
+                        if (![self bufferThreadIsRunning]) {
                             break;
                         }
-                    }
-                    [_bufferCondition unlock];
-                    st = AudioFileStreamParseBytes(audioFileStream, [data length], data.bytes, 0);
-                    if (st) {
-                        [self audioFileStream:audioFileStream failedWithOSStatus:st as:@"AudioFileStreamParseBytes"];
                     }
                 }
                 [NSThread sleepForTimeInterval:0.1];

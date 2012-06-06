@@ -32,9 +32,11 @@
 - (BOOL)shouldStopBuffering;
 - (void)stopBuffering;
 - (void)startBuffering;
+- (BOOL)bufferThreadIsRunning;
 - (void)waitForBufferingStopped;
 - (CFReadStreamRef)scheduleNewReadStream;
 - (void)unscheduleAndCloseReadStream:(CFReadStreamRef)readStreamRef;
-- (void)readBufferFromReadStream:(CFReadStreamRef)readStreamRef;
+- (void)fillBuffersFromReadStream:(CFReadStreamRef)readStreamRef;
 - (void)handleHTTPResponseHeaderFromReadStream:(CFReadStreamRef)readStreamRef;
+- (NSUInteger)readBuffer:(const void *)buffer bufferSize:(const NSUInteger)bufferSize;
 @end

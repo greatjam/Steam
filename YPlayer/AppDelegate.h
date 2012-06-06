@@ -20,12 +20,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Steam.h"
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
-    NSMutableArray * _songs;
-    Steam * _steam;
+    
 }
 @property (strong, nonatomic) UIWindow *window;
 

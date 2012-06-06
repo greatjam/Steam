@@ -20,10 +20,7 @@
 //
 
 #import "AppDelegate.h"
-#import <asihttprequest/ASIHTTPRequest.h>
-#import "JSONKit.h"
-#import "Steam.h"
-#import "SteamHelper.h"
+
 #import "MainViewController.h"
 
 @implementation AppDelegate
@@ -37,60 +34,16 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(steamStateChanged:) name:SteamStateChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(steamBufferStateChanged:) name:SteamBufferStateChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(steamAudioStateChanged:) name:SteamAudioStateChangedNotification object:nil];
+    MainViewController * vc = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+    self.window.rootViewController = vc;
+    [vc release];
     
-    ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://www.douban.com/j/app/radio/people?type=n&channel=1&app_name=radio_iphone&version=83"]];
-    [request setCompletionBlock:^{
-        NSString * json = request.responseString;
-        RELEASE_SAFELY(_songs);
-        id object = [json objectFromJSONString];
-        if ([object isKindOfClass:[NSDictionary class]]) {
-            if(0 == [[object objectForKey:@"r"] intValue]) {
-                _songs = [[object objectForKey:@"song"] mutableCopy];
-                [self playNext];
-            }
-        }
-    }];
-    [request startAsynchronous];
 
     /*NSURL * u = [[NSBundle mainBundle] URLForResource:@"06" withExtension:@"mp3"];
     Steam * st = [[Steam alloc] initWithURL:u];
     [st play];
      */
     return YES;
-}
-
--(void) steamStateChanged:(NSNotification *)notification
-{
-    LOGSTATUS(@"");
-}
-
--(void) steamBufferStateChanged:(NSNotification *)notification
-{
-    LOGSTATUS(@"");
-}
-
--(void) steamAudioStateChanged:(NSNotification *)notification
-{
-    LOGSTATUS(@"");
-}
-            
-- (void)playNext
-{
-    if ([_songs count]) {
-        NSDictionary * song = [_songs objectAtIndex:0];
-        [[song retain] autorelease];
-        [_songs removeObject:0];
-        
-        if (_steam) {
-            RELEASE_SAFELY(_steam);
-        }
-        NSURL * url = [NSURL URLWithString:[song objectForKey:@"url"]];
-        _steam = [[Steam alloc] initWithURL:url];
-        [_steam play];
-    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
