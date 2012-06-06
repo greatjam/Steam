@@ -25,7 +25,7 @@
 #import "SteamHelper.h"
 #import "Steam+Private.h"
 
-static const size_t MAX_BUFFER_SIZE = 1 * 1024;
+static const size_t MAX_BUFFER_SIZE = 64 * 1024;
 
 void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 
@@ -297,6 +297,10 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
         else {
             CFURLRef urlRef = (CFURLRef)self.url;
             CFHTTPMessageRef httpMessageRef = CFHTTPMessageCreateRequest(NULL, CFSTR("GET"), urlRef, kCFHTTPVersion1_1);
+            if (self.bufferedLength) {
+                NSString * s = [NSString stringWithFormat:@"bytes=%u-", self.bufferedLength];
+                CFHTTPMessageSetHeaderFieldValue(httpMessageRef, CFSTR("Range"), (CFStringRef)s);
+            }
             readStreamRef = CFReadStreamCreateForHTTPRequest(NULL, httpMessageRef);
             CFRelease(httpMessageRef);
         }
@@ -390,6 +394,19 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
 
 - (NSUInteger)readBuffer:(const void *)buffer bufferSize:(const NSUInteger)bufferSize
 {
+    /*UInt8 * readBuffer = (UInt8 *)buffer;
+    NSUInteger len = 0;
+    NSData * data = nil;
+    [_bufferCondition lock];
+    if ([_buffers count]) {
+        data = [_buffers objectAtIndex:0];
+        len = [data length];
+        [data getBytes:readBuffer length:len];
+        [_buffers removeObjectAtIndex:0];
+    }
+    [_bufferCondition unlock];
+    return len;*/
+    
     NSUInteger readSize = 0;
     if (buffer) {
         UInt8 * readBuffer = (UInt8 *)buffer;
@@ -398,7 +415,7 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
             NSUInteger count = 0;
             [_bufferCondition lock]; //将现有的缓存或最大bufferSize的缓存读出
             count = [_buffers count];
-            if (count) {
+            while (readSize < bufferSize && count) {
                 NSData * data = [_buffers objectAtIndex:0];
                 NSUInteger dataLen = [data length];
                 NSUInteger leftSize = bufferSize - readSize;
@@ -409,7 +426,7 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
                 }
                 else {//将data部分填充到buffer中
                     [data getBytes:readBuffer+readSize length:leftSize];
-                    UInt8 * bytes = (UInt8*)data.bytes + bufferSize;
+                    UInt8 * bytes = (UInt8*)data.bytes + leftSize;
                     NSMutableData * newData = [NSMutableData dataWithBytes:bytes length:dataLen - leftSize];
                     [_buffers replaceObjectAtIndex:0 withObject:newData];
                     readSize += leftSize;
@@ -417,10 +434,14 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
                 if (self.isFile) { //对于本地文件读取，为了减少对内存的占用，只有得到信号，才会读取下一部分
                     [_bufferCondition signal];
                 }
+                
+                count = [_buffers count];
             }
             [_bufferCondition unlock];
             if (!count) {
-                [NSThread sleepForTimeInterval:0.5];
+                if ([self bufferThreadIsRunning]) {
+                    [NSThread sleepForTimeInterval:0.5];
+                }
             }
         }
     }

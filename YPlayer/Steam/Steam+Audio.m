@@ -241,10 +241,11 @@ void myAudioQueuePropertyListenerProc(
             [_audioFileTypeCondition unlock];
             while (![self shouldExitAudioThread]) {
                 @autoreleasepool {
-                    const int MAX = 64*1024;
+                    const int MAX = 32 * 1024;
                     UInt8 buffer[MAX];
                     NSUInteger readSize = [self readBuffer:buffer bufferSize:MAX];
                     if (readSize) {
+                        STEAM_LOG(STEAM_DEBUG_AUDIO, @"read size:%u", readSize);
                         st = AudioFileStreamParseBytes(audioFileStream, readSize, buffer, 0);
                         if (st) {
                             [self audioFileStream:audioFileStream failedWithOSStatus:st as:@"AudioFileStreamParseBytes"];
