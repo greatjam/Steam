@@ -213,6 +213,11 @@ void myAudioQueuePropertyListenerProc(
 
 - (void)audioWorkerThread:(id)object
 {
+#if NON_OBJC_ARC
+    [self retain];
+#else
+    Steam * SELF = self;
+#endif
     @autoreleasepool {
         if (SteamAudioThreadStarted == self.audioState) {
             STEAM_LOG(STEAM_DEBUG_AUDIO, @"audio thread started");
@@ -236,7 +241,7 @@ void myAudioQueuePropertyListenerProc(
             [_audioFileTypeCondition unlock];
             while (![self shouldExitAudioThread]) {
                 @autoreleasepool {
-                    const int MAX = 128*1024;
+                    const int MAX = 64*1024;
                     UInt8 buffer[MAX];
                     NSUInteger readSize = [self readBuffer:buffer bufferSize:MAX];
                     if (readSize) {
@@ -265,6 +270,9 @@ void myAudioQueuePropertyListenerProc(
             STEAM_LOG(STEAM_DEBUG_AUDIO, @"audio worker thread exited");
         }//if
     }//autorelease
+#if NON_OBJC_ARC
+    [self retain];
+#endif
 }
 
 - (BOOL)shouldExitAudioThread
@@ -330,7 +338,7 @@ void myAudioQueuePropertyListenerProc(
                     static int i = 0;
                     st = AudioQueueEnqueueBuffer(_audioQueueRef, *refAQBuf, isVBR?inNumberPackets:0, isVBR?packetDescripton:NULL);
                     i ++;
-                    LOGSTATUS(@"enqueued:%d", i);
+                    LOGSTATUS(@"enqueued:%d (%ld bytes)", i, inNumberBytes);
                 }
             }
             

@@ -151,6 +151,11 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
 
 - (void)bufferWorker:(id)object
 {
+#if NON_OBJC_ARC
+    [self retain];//防止被释放
+#else
+    Steam * SELF = self;
+#endif
     @autoreleasepool {
         //如果状态不正确，立即退出线程
         if (SteamBufferThreadStarted == self.bufferState) {
@@ -223,6 +228,9 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
             STEAM_LOG(STEAM_DEBUG_BUFFER, @"worker thread exited (total size:%u)", _totalLength); 
         }//steam buffer thread started
     }//@autorelease
+#if NON_OBJC_ARC
+    [self release];
+#endif
 }
 
 - (void)handleReadStream:(CFReadStreamRef)readStreamRef eventType:(CFStreamEventType)type
@@ -386,28 +394,35 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
     if (buffer) {
         UInt8 * readBuffer = (UInt8 *)buffer;
         //如果网络缓慢，会导致函数空转，应该想办法阻塞住
-        [_bufferCondition lock]; //将现有的缓存或最大bufferSize的缓存读出
-        while (readSize < bufferSize && [_buffers count]) {
-            NSData * data = [_buffers objectAtIndex:0];
-            NSUInteger dataLen = [data length];
-            NSUInteger leftSize = bufferSize - readSize;
-            if (dataLen <= leftSize) {//将data全部填充到buffer中
-                [data getBytes:readBuffer+readSize length:dataLen];
-                [_buffers removeObjectAtIndex:0];
-                readSize += dataLen;
+        while (readSize < bufferSize) {
+            NSUInteger count = 0;
+            [_bufferCondition lock]; //将现有的缓存或最大bufferSize的缓存读出
+            count = [_buffers count];
+            if (count) {
+                NSData * data = [_buffers objectAtIndex:0];
+                NSUInteger dataLen = [data length];
+                NSUInteger leftSize = bufferSize - readSize;
+                if (dataLen <= leftSize) {//将data全部填充到buffer中
+                    [data getBytes:readBuffer+readSize length:dataLen];
+                    [_buffers removeObjectAtIndex:0];
+                    readSize += dataLen;
+                }
+                else {//将data部分填充到buffer中
+                    [data getBytes:readBuffer+readSize length:leftSize];
+                    UInt8 * bytes = (UInt8*)data.bytes + bufferSize;
+                    NSMutableData * newData = [NSMutableData dataWithBytes:bytes length:dataLen - leftSize];
+                    [_buffers replaceObjectAtIndex:0 withObject:newData];
+                    readSize += leftSize;
+                }
+                if (self.isFile) { //对于本地文件读取，为了减少对内存的占用，只有得到信号，才会读取下一部分
+                    [_bufferCondition signal];
+                }
             }
-            else {//将data部分填充到buffer中
-                [data getBytes:readBuffer+readSize length:leftSize];
-                UInt8 * bytes = (UInt8*)data.bytes + bufferSize;
-                NSMutableData * newData = [NSMutableData dataWithBytes:bytes length:dataLen - leftSize];
-                [_buffers replaceObjectAtIndex:0 withObject:newData];
-                readSize += leftSize;
-            }
-            if (self.isFile) { //对于本地文件读取，为了减少对内存的占用，只有得到信号，才会读取下一部分
-                [_bufferCondition signal];
+            [_bufferCondition unlock];
+            if (!count) {
+                [NSThread sleepForTimeInterval:0.5];
             }
         }
-        [_bufferCondition unlock];
     }
     return readSize;
 }
