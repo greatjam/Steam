@@ -1,0 +1,4 @@
+Steam - An iOS/Mac Network Streaming Player
+==========================================
+
+This lib is EXPERIMENTAL, NOT fully tested!

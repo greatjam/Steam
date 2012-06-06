@@ -1,0 +1,662 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9A29BDB91564C10600D950A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A29BDB81564C10600D950A6 /* UIKit.framework */; };
+		9A29BDBB1564C10600D950A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A29BDBA1564C10600D950A6 /* Foundation.framework */; };
+		9A29BDBD1564C10700D950A6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A29BDBC1564C10600D950A6 /* CoreGraphics.framework */; };
+		9A29BDC31564C10700D950A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A29BDC11564C10700D950A6 /* InfoPlist.strings */; };
+		9A29BDC51564C10700D950A6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A29BDC41564C10700D950A6 /* main.m */; };
+		9A29BDC91564C10700D950A6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A29BDC81564C10700D950A6 /* AppDelegate.m */; };
+		9A29BDD21564C1DB00D950A6 /* Steam.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A29BDD11564C1DB00D950A6 /* Steam.m */; };
+		9AC9829F1573DBE700486A08 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC9829E1573DBE700486A08 /* CFNetwork.framework */; };
+		9AC982A41573DE2A00486A08 /* Steam+Buffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982A31573DE2A00486A08 /* Steam+Buffer.m */; };
+		9AC982A71573DE3C00486A08 /* Steam+Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982A61573DE3C00486A08 /* Steam+Audio.m */; };
+		9AC982B215749B1B00486A08 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC982B115749B1B00486A08 /* AudioToolbox.framework */; };
+		9AC982BF1574C50200486A08 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982BD1574C50200486A08 /* JSONKit.m */; };
+		9AC982CF1574C84A00486A08 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC982CA1574C84A00486A08 /* libz.dylib */; };
+		9AC982D01574C84A00486A08 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC982CB1574C84A00486A08 /* MobileCoreServices.framework */; };
+		9AC982D11574C84A00486A08 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC982CC1574C84A00486A08 /* QuartzCore.framework */; };
+		9AC982D21574C84A00486A08 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC982CD1574C84A00486A08 /* Security.framework */; };
+		9AC982D31574C84A00486A08 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC982CE1574C84A00486A08 /* SystemConfiguration.framework */; };
+		9AC982F71574CA4200486A08 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982DE1574CA4200486A08 /* ASIAuthenticationDialog.m */; };
+		9AC982F81574CA4200486A08 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982DF1574CA4200486A08 /* ASIDataCompressor.m */; };
+		9AC982F91574CA4200486A08 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982E01574CA4200486A08 /* ASIDataDecompressor.m */; };
+		9AC982FA1574CA4200486A08 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982E11574CA4200486A08 /* ASIDownloadCache.m */; };
+		9AC982FB1574CA4200486A08 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982E21574CA4200486A08 /* ASIFormDataRequest.m */; };
+		9AC982FC1574CA4200486A08 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982E31574CA4200486A08 /* ASIHTTPRequest.m */; };
+		9AC982FD1574CA4200486A08 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982E41574CA4200486A08 /* ASIInputStream.m */; };
+		9AC982FE1574CA4200486A08 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC982E51574CA4200486A08 /* ASINetworkQueue.m */; };
+		9AC982FF1574CA4200486A08 /* asihttprequest-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AC982F31574CA4200486A08 /* asihttprequest-Info.plist */; };
+		9AC983001574CA4200486A08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AC982F41574CA4200486A08 /* InfoPlist.strings */; };
+		9AC983041574CA4800486A08 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC983031574CA4800486A08 /* Reachability.m */; };
+		9AC9830E157608E300486A08 /* Steam+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC9830D157608E300486A08 /* Steam+Private.m */; };
+		9ADCFA0F157F7B6C002FBEB7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9ADCFA0D157F7B6C002FBEB7 /* InfoPlist.strings */; };
+		9AFC211A157E034D00698E60 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC2118157E034D00698E60 /* MainViewController.m */; };
+		9AFC211B157E034D00698E60 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AFC2119157E034D00698E60 /* MainViewController.xib */; };
+		9AFC211E157E0A3300698E60 /* 06.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9AFC211D157E0A3300698E60 /* 06.mp3 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9A29BDB41564C10600D950A6 /* YPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A29BDB81564C10600D950A6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		9A29BDBA1564C10600D950A6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9A29BDBC1564C10600D950A6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9A29BDC01564C10700D950A6 /* YPlayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "YPlayer-Info.plist"; sourceTree = "<group>"; };
+		9A29BDC21564C10700D950A6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9A29BDC41564C10700D950A6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9A29BDC61564C10700D950A6 /* YPlayer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YPlayer-Prefix.pch"; sourceTree = "<group>"; };
+		9A29BDC71564C10700D950A6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		9A29BDC81564C10700D950A6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		9A29BDD01564C1DB00D950A6 /* Steam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Steam.h; sourceTree = "<group>"; };
+		9A29BDD11564C1DB00D950A6 /* Steam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Steam.m; sourceTree = "<group>"; };
+		9A29BDD41564C67800D950A6 /* SteamHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SteamHelper.h; sourceTree = "<group>"; };
+		9AC9829E1573DBE700486A08 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		9AC982A21573DE2A00486A08 /* Steam+Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Steam+Buffer.h"; sourceTree = "<group>"; };
+		9AC982A31573DE2A00486A08 /* Steam+Buffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Steam+Buffer.m"; sourceTree = "<group>"; };
+		9AC982A51573DE3C00486A08 /* Steam+Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Steam+Audio.h"; sourceTree = "<group>"; };
+		9AC982A61573DE3C00486A08 /* Steam+Audio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Steam+Audio.m"; sourceTree = "<group>"; };
+		9AC982B115749B1B00486A08 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		9AC982BD1574C50200486A08 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = ../../JSONKit/JSONKit/JSONKit.m; sourceTree = "<group>"; };
+		9AC982BE1574C50200486A08 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = ../../JSONKit/JSONKit/JSONKit.h; sourceTree = "<group>"; };
+		9AC982CA1574C84A00486A08 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		9AC982CB1574C84A00486A08 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		9AC982CC1574C84A00486A08 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9AC982CD1574C84A00486A08 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9AC982CE1574C84A00486A08 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9AC982D81574C90400486A08 /* asihttprequest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = asihttprequest.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/YPlayer-dgsnzrojcoblshhfcuhrmilnwans/Build/Products/Debug-iphoneos/asihttprequest.framework"; sourceTree = "<group>"; };
+		9AC982DE1574CA4200486A08 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
+		9AC982DF1574CA4200486A08 /* ASIDataCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataCompressor.m; sourceTree = "<group>"; };
+		9AC982E01574CA4200486A08 /* ASIDataDecompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataDecompressor.m; sourceTree = "<group>"; };
+		9AC982E11574CA4200486A08 /* ASIDownloadCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDownloadCache.m; sourceTree = "<group>"; };
+		9AC982E21574CA4200486A08 /* ASIFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIFormDataRequest.m; sourceTree = "<group>"; };
+		9AC982E31574CA4200486A08 /* ASIHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIHTTPRequest.m; sourceTree = "<group>"; };
+		9AC982E41574CA4200486A08 /* ASIInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIInputStream.m; sourceTree = "<group>"; };
+		9AC982E51574CA4200486A08 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASINetworkQueue.m; sourceTree = "<group>"; };
+		9AC982E61574CA4200486A08 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
+		9AC982E71574CA4200486A08 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
+		9AC982E81574CA4200486A08 /* ASIDataCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataCompressor.h; sourceTree = "<group>"; };
+		9AC982E91574CA4200486A08 /* ASIDataDecompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataDecompressor.h; sourceTree = "<group>"; };
+		9AC982EA1574CA4200486A08 /* ASIDownloadCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDownloadCache.h; sourceTree = "<group>"; };
+		9AC982EB1574CA4200486A08 /* ASIFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIFormDataRequest.h; sourceTree = "<group>"; };
+		9AC982EC1574CA4200486A08 /* ASIHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequest.h; sourceTree = "<group>"; };
+		9AC982ED1574CA4200486A08 /* ASIHTTPRequestConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestConfig.h; sourceTree = "<group>"; };
+		9AC982EE1574CA4200486A08 /* ASIHTTPRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestDelegate.h; sourceTree = "<group>"; };
+		9AC982EF1574CA4200486A08 /* ASIInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIInputStream.h; sourceTree = "<group>"; };
+		9AC982F01574CA4200486A08 /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASINetworkQueue.h; sourceTree = "<group>"; };
+		9AC982F11574CA4200486A08 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
+		9AC982F31574CA4200486A08 /* asihttprequest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "asihttprequest-Info.plist"; sourceTree = "<group>"; };
+		9AC982F51574CA4200486A08 /* asihttprequest-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "asihttprequest-Prefix.pch"; sourceTree = "<group>"; };
+		9AC982F61574CA4200486A08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9AC983021574CA4800486A08 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		9AC983031574CA4800486A08 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		9AC9830C157608E300486A08 /* Steam+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Steam+Private.h"; sourceTree = "<group>"; };
+		9AC9830D157608E300486A08 /* Steam+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Steam+Private.m"; sourceTree = "<group>"; };
+		9ADCFA09157F7B6C002FBEB7 /* Steam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Steam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9ADCFA0C157F7B6C002FBEB7 /* Steam-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Steam-Info.plist"; sourceTree = "<group>"; };
+		9ADCFA0E157F7B6C002FBEB7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9ADCFA10157F7B6C002FBEB7 /* Steam-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Steam-Prefix.pch"; sourceTree = "<group>"; };
+		9AFC2117157E034D00698E60 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		9AFC2118157E034D00698E60 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		9AFC2119157E034D00698E60 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		9AFC211D157E0A3300698E60 /* 06.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 06.mp3; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9A29BDB11564C10600D950A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AC982CF1574C84A00486A08 /* libz.dylib in Frameworks */,
+				9AC982D01574C84A00486A08 /* MobileCoreServices.framework in Frameworks */,
+				9AC982D11574C84A00486A08 /* QuartzCore.framework in Frameworks */,
+				9AC982D21574C84A00486A08 /* Security.framework in Frameworks */,
+				9AC982D31574C84A00486A08 /* SystemConfiguration.framework in Frameworks */,
+				9AC982B215749B1B00486A08 /* AudioToolbox.framework in Frameworks */,
+				9AC9829F1573DBE700486A08 /* CFNetwork.framework in Frameworks */,
+				9A29BDB91564C10600D950A6 /* UIKit.framework in Frameworks */,
+				9A29BDBB1564C10600D950A6 /* Foundation.framework in Frameworks */,
+				9A29BDBD1564C10700D950A6 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9ADCFA03157F7B6C002FBEB7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9A29BDA91564C10600D950A6 = {
+			isa = PBXGroup;
+			children = (
+				9AC982D81574C90400486A08 /* asihttprequest.framework */,
+				9A29BDBE1564C10700D950A6 /* YPlayer */,
+				9ADCFA0A157F7B6C002FBEB7 /* Steam */,
+				9A29BDB71564C10600D950A6 /* Frameworks */,
+				9A29BDB51564C10600D950A6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9A29BDB51564C10600D950A6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9A29BDB41564C10600D950A6 /* YPlayer.app */,
+				9ADCFA09157F7B6C002FBEB7 /* Steam.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9A29BDB71564C10600D950A6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9AC982CA1574C84A00486A08 /* libz.dylib */,
+				9AC982CB1574C84A00486A08 /* MobileCoreServices.framework */,
+				9AC982CC1574C84A00486A08 /* QuartzCore.framework */,
+				9AC982CD1574C84A00486A08 /* Security.framework */,
+				9AC982CE1574C84A00486A08 /* SystemConfiguration.framework */,
+				9AC982B115749B1B00486A08 /* AudioToolbox.framework */,
+				9AC9829E1573DBE700486A08 /* CFNetwork.framework */,
+				9A29BDB81564C10600D950A6 /* UIKit.framework */,
+				9A29BDBA1564C10600D950A6 /* Foundation.framework */,
+				9A29BDBC1564C10600D950A6 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9A29BDBE1564C10700D950A6 /* YPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				9AC982BD1574C50200486A08 /* JSONKit.m */,
+				9AC982BE1574C50200486A08 /* JSONKit.h */,
+				9AC982DD1574CA4200486A08 /* asihttprequest */,
+				9A29BDCF1564C1B800D950A6 /* Steam */,
+				9A29BDC71564C10700D950A6 /* AppDelegate.h */,
+				9A29BDC81564C10700D950A6 /* AppDelegate.m */,
+				9AFC2117157E034D00698E60 /* MainViewController.h */,
+				9AFC2118157E034D00698E60 /* MainViewController.m */,
+				9AFC2119157E034D00698E60 /* MainViewController.xib */,
+				9A29BDBF1564C10700D950A6 /* Supporting Files */,
+			);
+			path = YPlayer;
+			sourceTree = "<group>";
+		};
+		9A29BDBF1564C10700D950A6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9AFC211D157E0A3300698E60 /* 06.mp3 */,
+				9A29BDC01564C10700D950A6 /* YPlayer-Info.plist */,
+				9A29BDC11564C10700D950A6 /* InfoPlist.strings */,
+				9A29BDC41564C10700D950A6 /* main.m */,
+				9A29BDC61564C10700D950A6 /* YPlayer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9A29BDCF1564C1B800D950A6 /* Steam */ = {
+			isa = PBXGroup;
+			children = (
+				9A29BDD01564C1DB00D950A6 /* Steam.h */,
+				9A29BDD11564C1DB00D950A6 /* Steam.m */,
+				9AC9830C157608E300486A08 /* Steam+Private.h */,
+				9AC9830D157608E300486A08 /* Steam+Private.m */,
+				9AC982A21573DE2A00486A08 /* Steam+Buffer.h */,
+				9AC982A31573DE2A00486A08 /* Steam+Buffer.m */,
+				9AC982A51573DE3C00486A08 /* Steam+Audio.h */,
+				9AC982A61573DE3C00486A08 /* Steam+Audio.m */,
+				9A29BDD41564C67800D950A6 /* SteamHelper.h */,
+			);
+			path = Steam;
+			sourceTree = "<group>";
+		};
+		9AC982DD1574CA4200486A08 /* asihttprequest */ = {
+			isa = PBXGroup;
+			children = (
+				9AC983011574CA4800486A08 /* Reachability */,
+				9AC982DE1574CA4200486A08 /* ASIAuthenticationDialog.m */,
+				9AC982DF1574CA4200486A08 /* ASIDataCompressor.m */,
+				9AC982E01574CA4200486A08 /* ASIDataDecompressor.m */,
+				9AC982E11574CA4200486A08 /* ASIDownloadCache.m */,
+				9AC982E21574CA4200486A08 /* ASIFormDataRequest.m */,
+				9AC982E31574CA4200486A08 /* ASIHTTPRequest.m */,
+				9AC982E41574CA4200486A08 /* ASIInputStream.m */,
+				9AC982E51574CA4200486A08 /* ASINetworkQueue.m */,
+				9AC982E61574CA4200486A08 /* ASIAuthenticationDialog.h */,
+				9AC982E71574CA4200486A08 /* ASICacheDelegate.h */,
+				9AC982E81574CA4200486A08 /* ASIDataCompressor.h */,
+				9AC982E91574CA4200486A08 /* ASIDataDecompressor.h */,
+				9AC982EA1574CA4200486A08 /* ASIDownloadCache.h */,
+				9AC982EB1574CA4200486A08 /* ASIFormDataRequest.h */,
+				9AC982EC1574CA4200486A08 /* ASIHTTPRequest.h */,
+				9AC982ED1574CA4200486A08 /* ASIHTTPRequestConfig.h */,
+				9AC982EE1574CA4200486A08 /* ASIHTTPRequestDelegate.h */,
+				9AC982EF1574CA4200486A08 /* ASIInputStream.h */,
+				9AC982F01574CA4200486A08 /* ASINetworkQueue.h */,
+				9AC982F11574CA4200486A08 /* ASIProgressDelegate.h */,
+				9AC982F21574CA4200486A08 /* Supporting Files */,
+			);
+			name = asihttprequest;
+			path = ../../asihttprequest/asihttprequest;
+			sourceTree = "<group>";
+		};
+		9AC982F21574CA4200486A08 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9AC982F31574CA4200486A08 /* asihttprequest-Info.plist */,
+				9AC982F41574CA4200486A08 /* InfoPlist.strings */,
+				9AC982F51574CA4200486A08 /* asihttprequest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9AC983011574CA4800486A08 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				9AC983021574CA4800486A08 /* Reachability.h */,
+				9AC983031574CA4800486A08 /* Reachability.m */,
+			);
+			name = Reachability;
+			path = ../Reachability;
+			sourceTree = "<group>";
+		};
+		9ADCFA0A157F7B6C002FBEB7 /* Steam */ = {
+			isa = PBXGroup;
+			children = (
+				9ADCFA0B157F7B6C002FBEB7 /* Supporting Files */,
+			);
+			path = Steam;
+			sourceTree = "<group>";
+		};
+		9ADCFA0B157F7B6C002FBEB7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9ADCFA0C157F7B6C002FBEB7 /* Steam-Info.plist */,
+				9ADCFA0D157F7B6C002FBEB7 /* InfoPlist.strings */,
+				9ADCFA10157F7B6C002FBEB7 /* Steam-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		9ADCFA04157F7B6C002FBEB7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		9A29BDB31564C10600D950A6 /* YPlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A29BDCC1564C10700D950A6 /* Build configuration list for PBXNativeTarget "YPlayer" */;
+			buildPhases = (
+				9A29BDB01564C10600D950A6 /* Sources */,
+				9A29BDB11564C10600D950A6 /* Frameworks */,
+				9A29BDB21564C10600D950A6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YPlayer;
+			productName = YPlayer;
+			productReference = 9A29BDB41564C10600D950A6 /* YPlayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9ADCFA08157F7B6C002FBEB7 /* Steam */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9ADCFA13157F7B6C002FBEB7 /* Build configuration list for PBXNativeTarget "Steam" */;
+			buildPhases = (
+				9ADCFA01157F7B6C002FBEB7 /* ShellScript */,
+				9ADCFA02157F7B6C002FBEB7 /* Sources */,
+				9ADCFA03157F7B6C002FBEB7 /* Frameworks */,
+				9ADCFA04157F7B6C002FBEB7 /* Headers */,
+				9ADCFA05157F7B6C002FBEB7 /* Resources */,
+				9ADCFA06157F7B6C002FBEB7 /* ShellScript */,
+				9ADCFA07157F7B6C002FBEB7 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Steam;
+			productName = Steam;
+			productReference = 9ADCFA09157F7B6C002FBEB7 /* Steam.framework */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9A29BDAB1564C10600D950A6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Douban Inc";
+			};
+			buildConfigurationList = 9A29BDAE1564C10600D950A6 /* Build configuration list for PBXProject "YPlayer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9A29BDA91564C10600D950A6;
+			productRefGroup = 9A29BDB51564C10600D950A6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9A29BDB31564C10600D950A6 /* YPlayer */,
+				9ADCFA08157F7B6C002FBEB7 /* Steam */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9A29BDB21564C10600D950A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A29BDC31564C10700D950A6 /* InfoPlist.strings in Resources */,
+				9AC982FF1574CA4200486A08 /* asihttprequest-Info.plist in Resources */,
+				9AC983001574CA4200486A08 /* InfoPlist.strings in Resources */,
+				9AFC211B157E034D00698E60 /* MainViewController.xib in Resources */,
+				9AFC211E157E0A3300698E60 /* 06.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9ADCFA05157F7B6C002FBEB7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ADCFA0F157F7B6C002FBEB7 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9ADCFA01157F7B6C002FBEB7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nset +u\nif [[ $UFW_MASTER_SCRIPT_RUNNING ]]\nthen\n    # Nothing for the slave script to do\n    exit 0\nfi\nset -u\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\n    UFW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find platform name from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\n\tUFW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find sdk version  from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$UFW_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\n    UFW_OTHER_PLATFORM=iphonesimulator\nelse\n    UFW_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$UFW_SDK_PLATFORM$ ]]\nthen\n    UFW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${UFW_OTHER_PLATFORM}\"\nelse\n    echo \"Could not find $UFW_SDK_PLATFORM in $BUILT_PRODUCTS_DIR\"\n    exit 1\nfi\n\n\n# Short-circuit if all binaries are up to date\n\nif [[ -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && \\\n   [[ -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n   [[ ! \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\n   [[ -f \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && \\\n   [[ -f \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n   [[ ! \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\nthen\n    exit 0\nfi\n\n\n# Clean other platform if needed\n\nif [[ ! -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]]\nthen\n\techo \"Platform \\\"$UFW_SDK_PLATFORM\\\" was cleaned recently. Cleaning \\\"$UFW_OTHER_PLATFORM\\\" as well\"\n\techo xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" clean\n\txcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" clean\nfi\n\n\n# Make sure we are building from fresh binaries\n\nrm -rf \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\nrm -rf \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nrm -rf \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\n";
+		};
+		9ADCFA06157F7B6C002FBEB7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "HEADERS_ROOT=$SRCROOT/$PRODUCT_NAME\nFRAMEWORK_HEADERS_DIR=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Versions/$FRAMEWORK_VERSION/Headers\"\n\n## only header files expected at this point\nPUBLIC_HEADERS=$(find $FRAMEWORK_HEADERS_DIR/. -not -type d 2> /dev/null | sed -e \"s@.*/@@g\")\n\nFIND_OPTS=\"\"\nfor PUBLIC_HEADER in $PUBLIC_HEADERS; do\n  if [ -n \"$FIND_OPTS\" ]; then\n    FIND_OPTS=\"$FIND_OPTS -o\"\n  fi\n  FIND_OPTS=\"$FIND_OPTS -name '$PUBLIC_HEADER'\"\ndone\n\nif [ -n \"$FIND_OPTS\" ]; then\n  for ORIG_HEADER in $(eval \"find $HEADERS_ROOT/. $FIND_OPTS\" 2> /dev/null | sed -e \"s@^$HEADERS_ROOT/./@@g\"); do\n    PUBLIC_HEADER=$(basename $ORIG_HEADER)\n    RELATIVE_PATH=$(dirname $ORIG_HEADER)\n    if [ -e $FRAMEWORK_HEADERS_DIR/$PUBLIC_HEADER ]; then\n      mkdir -p \"$FRAMEWORK_HEADERS_DIR/$RELATIVE_PATH\"\n      mv \"$FRAMEWORK_HEADERS_DIR/$PUBLIC_HEADER\" \"$FRAMEWORK_HEADERS_DIR/$RELATIVE_PATH/$PUBLIC_HEADER\"\n    fi\n  done\nfi\n";
+		};
+		9ADCFA07157F7B6C002FBEB7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nset +u\nif [[ $UFW_MASTER_SCRIPT_RUNNING ]]\nthen\n    # Nothing for the slave script to do\n    exit 0\nfi\nset -u\nexport UFW_MASTER_SCRIPT_RUNNING=1\n\n\n# Functions\n\n## List files in the specified directory, storing to the specified array.\n#\n# @param $1 The path to list\n# @param $2 The name of the array to fill\n#\n##\nlist_files ()\n{\n    filelist=$(ls \"$1\")\n    while read line\n    do\n        eval \"$2[\\${#$2[*]}]=\\\"\\$line\\\"\"\n    done <<< \"$filelist\"\n}\n\n\n# Sanity check\n\nif [[ ! -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]]\nthen\n    echo \"Framework target \\\"${TARGET_NAME}\\\" had no source files to build from. Make sure your source files have the correct target membership\"\n    exit 1\nfi\n\n\n# Gather information\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\n    UFW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find platform name from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\n    UFW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$UFW_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\n    UFW_OTHER_PLATFORM=iphonesimulator\nelse\n    UFW_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$UFW_SDK_PLATFORM$ ]]\nthen\n    UFW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${UFW_OTHER_PLATFORM}\"\nelse\n    echo \"Could not find $UFW_SDK_PLATFORM in $BUILT_PRODUCTS_DIR\"\n    exit 1\nfi\n\n\n# Short-circuit if all binaries are up to date.\n# We already checked the other platform in the prerun script.\n\nif [[ -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && [[ -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && [[ ! \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\nthen\n    exit 0\nfi\n\n\n# Make sure the other platform gets built\n\necho \"Build other platform\"\n\necho xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" $ACTION\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" $ACTION\n\n\n# Build the fat static library binary\n\necho \"Create universal static library\"\n\necho \"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n\"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n\necho mv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nmv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\n\n\n# Build framework structure\n\necho \"Build symlinks\"\n\necho ln -sfh A \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Versions/Current\"\nln -sfh A \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Versions/Current\"\necho ln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Headers\"\nln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Headers\"\necho ln -sfh Versions/Current/Resources \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Resources\"\nln -sfh Versions/Current/Resources \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Resources\"\necho ln -sfh \"Versions/Current/${EXECUTABLE_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${EXECUTABLE_NAME}\"\nln -sfh \"Versions/Current/${EXECUTABLE_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${EXECUTABLE_NAME}\"\n\n\n# Link to binary for unit tests\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/.fake_fw_testing.framework\"\nln -sfh \"../${WRAPPER_NAME}/${EXECUTABLE_NAME}\" \"${BUILT_PRODUCTS_DIR}/.fake_fw_testing.framework/.fake_fw_testing\"\n\n\n# Build embedded framework structure\n\necho \"Build Embedded Framework\"\n\necho rm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\necho mkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources\"\necho cp -a \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/\"\ncp -a \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/\"\n\ndeclare -a UFW_FILE_LIST\nlist_files \"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\" UFW_FILE_LIST\nfor filename in \"${UFW_FILE_LIST[@]}\"\ndo\n    if [[ \"${filename}\" != \"Info.plist\" ]] && [[ ! \"${filename}\" =~ .*\\.lproj$ ]]\n    then\n        echo ln -sfh \"../${WRAPPER_NAME}/Resources/${filename}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources/${filename}\"\n        ln -sfh \"../${WRAPPER_NAME}/Resources/${filename}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources/${filename}\"\n    fi\ndone\n\n\n# Replace other platform's framework with a copy of this one (so that both have the same universal binary)\n\necho \"Copy from $UFW_SDK_PLATFORM to $UFW_OTHER_PLATFORM\"\n\necho rm -rf \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\nrm -rf \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\necho cp -a \"${BUILD_DIR}/${CONFIGURATION}-${UFW_SDK_PLATFORM}\" \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\ncp -a \"${BUILD_DIR}/${CONFIGURATION}-${UFW_SDK_PLATFORM}\" \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9A29BDB01564C10600D950A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A29BDC51564C10700D950A6 /* main.m in Sources */,
+				9A29BDC91564C10700D950A6 /* AppDelegate.m in Sources */,
+				9A29BDD21564C1DB00D950A6 /* Steam.m in Sources */,
+				9AC982A41573DE2A00486A08 /* Steam+Buffer.m in Sources */,
+				9AC982A71573DE3C00486A08 /* Steam+Audio.m in Sources */,
+				9AC982BF1574C50200486A08 /* JSONKit.m in Sources */,
+				9AC982F71574CA4200486A08 /* ASIAuthenticationDialog.m in Sources */,
+				9AC982F81574CA4200486A08 /* ASIDataCompressor.m in Sources */,
+				9AC982F91574CA4200486A08 /* ASIDataDecompressor.m in Sources */,
+				9AC982FA1574CA4200486A08 /* ASIDownloadCache.m in Sources */,
+				9AC982FB1574CA4200486A08 /* ASIFormDataRequest.m in Sources */,
+				9AC982FC1574CA4200486A08 /* ASIHTTPRequest.m in Sources */,
+				9AC982FD1574CA4200486A08 /* ASIInputStream.m in Sources */,
+				9AC982FE1574CA4200486A08 /* ASINetworkQueue.m in Sources */,
+				9AC983041574CA4800486A08 /* Reachability.m in Sources */,
+				9AC9830E157608E300486A08 /* Steam+Private.m in Sources */,
+				9AFC211A157E034D00698E60 /* MainViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9ADCFA02157F7B6C002FBEB7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9A29BDC11564C10700D950A6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9A29BDC21564C10700D950A6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9AC982F41574CA4200486A08 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9AC982F61574CA4200486A08 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9ADCFA0D157F7B6C002FBEB7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9ADCFA0E157F7B6C002FBEB7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9A29BDCA1564C10700D950A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9A29BDCB1564C10700D950A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9A29BDCD1564C10700D950A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/YPlayer-dgsnzrojcoblshhfcuhrmilnwans/Build/Products/Debug-iphoneos\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "YPlayer/YPlayer-Prefix.pch";
+				INFOPLIST_FILE = "YPlayer/YPlayer-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9A29BDCE1564C10700D950A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/YPlayer-dgsnzrojcoblshhfcuhrmilnwans/Build/Products/Debug-iphoneos\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "YPlayer/YPlayer-Prefix.pch";
+				INFOPLIST_FILE = "YPlayer/YPlayer-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		9ADCFA11157F7B6C002FBEB7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				CONTENTS_FOLDER_PATH = "$(WRAPPER_NAME)/Versions/$(FRAMEWORK_VERSION)";
+				DEAD_CODE_STRIPPING = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Steam/Steam-Prefix.pch";
+				INFOPLIST_FILE = "Steam/Steam-Info.plist";
+				INFOPLIST_PATH = "$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Info.plist";
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				UNLOCALIZED_RESOURCES_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Resources";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		9ADCFA12157F7B6C002FBEB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				CONTENTS_FOLDER_PATH = "$(WRAPPER_NAME)/Versions/$(FRAMEWORK_VERSION)";
+				DEAD_CODE_STRIPPING = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Steam/Steam-Prefix.pch";
+				INFOPLIST_FILE = "Steam/Steam-Info.plist";
+				INFOPLIST_PATH = "$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Info.plist";
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				UNLOCALIZED_RESOURCES_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Resources";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9A29BDAE1564C10600D950A6 /* Build configuration list for PBXProject "YPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A29BDCA1564C10700D950A6 /* Debug */,
+				9A29BDCB1564C10700D950A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9A29BDCC1564C10700D950A6 /* Build configuration list for PBXNativeTarget "YPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A29BDCD1564C10700D950A6 /* Debug */,
+				9A29BDCE1564C10700D950A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9ADCFA13157F7B6C002FBEB7 /* Build configuration list for PBXNativeTarget "Steam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9ADCFA11157F7B6C002FBEB7 /* Debug */,
+				9ADCFA12157F7B6C002FBEB7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9A29BDAB1564C10600D950A6 /* Project object */;
+}
