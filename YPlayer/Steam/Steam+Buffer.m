@@ -160,12 +160,12 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
 
 - (void)bufferWorker:(id)object
 {
-#if NON_OBJC_ARC
-    [self retain];//防止被释放
-#else
-    Steam * SELF = self;
-#endif
     @autoreleasepool {
+#if NON_OBJC_ARC
+        [self retain];//防止被释放
+#else
+        Steam * SELF = self;
+#endif
         //如果状态不正确，立即退出线程
         if (SteamBufferThreadStarted == self.bufferState) {
             
@@ -236,10 +236,10 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
             [_networkCondition unlock];
             STEAM_LOG(STEAM_DEBUG_BUFFER, @"worker thread exited (total size:%u)", _totalLength); 
         }//steam buffer thread started
-    }//@autorelease
 #if NON_OBJC_ARC
-    [self release];
+        [self release];
 #endif
+    }//@autorelease
 }
 
 - (void)handleReadStream:(CFReadStreamRef)readStreamRef eventType:(CFStreamEventType)type

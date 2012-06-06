@@ -36,6 +36,7 @@
 - (void)waitForAudioStopped;
 - (NSTimeInterval)audioElapsedTime;
 - (NSTimeInterval)audioDuration;
+- (void)audioWorkerThread:(id)object;
 
 - (void)handleAudioFileStreamPacketsNumberBytes:(UInt32) inNumberBytes 
                                   numberPackets:(UInt32)inNumberPackets

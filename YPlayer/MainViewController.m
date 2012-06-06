@@ -91,7 +91,7 @@
 
 -(void) steamStateChanged:(NSNotification *)notification
 {
-    LOGSTATUS(@"");
+    LOGSTATUS(@"%d", _steam.state);
     if (SteamWorking == _steam.state) {
         self.playButton.titleLabel.text = @"Pause";
     }
@@ -109,12 +109,12 @@
 
 -(void) steamBufferStateChanged:(NSNotification *)notification
 {
-    LOGSTATUS(@"");
+    LOGSTATUS(@"%d", _steam.bufferState);
 }
 
 -(void) steamAudioStateChanged:(NSNotification *)notification
 {
-    LOGSTATUS(@"");
+    LOGSTATUS(@"%d", _steam.audioState);
 }
 
 - (void)playNext

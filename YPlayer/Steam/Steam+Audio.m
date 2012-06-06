@@ -265,7 +265,7 @@ void myAudioQueuePropertyListenerProc(
                 @autoreleasepool {
                     //解析出来的queue buffer大小不均匀，导致三个audio queue buffer播放的时候会出现停顿
                     //小的queuebuffer导致线程来不及准备下面的数据
-                    const int MAX = 32 * 1024;
+                    const int MAX = 128 * 1024;//过大会导致栈溢出
                     UInt8 buffer[MAX];
                     NSUInteger readSize = [self readBuffer:buffer bufferSize:MAX];
                     if (readSize) {
