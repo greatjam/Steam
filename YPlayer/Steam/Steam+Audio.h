@@ -34,6 +34,8 @@
 - (void)signalAudioFileType;
 - (void)freeAudioQueue;
 - (void)waitForAudioStopped;
+- (NSTimeInterval)audioElapsedTime;
+- (NSTimeInterval)audioDuration;
 
 - (void)handleAudioFileStreamPacketsNumberBytes:(UInt32) inNumberBytes 
                                   numberPackets:(UInt32)inNumberPackets

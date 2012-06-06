@@ -101,6 +101,7 @@
     else {
         self.playButton.titleLabel.text = @"Play";
         if (SteamStopped == _steam.state) {
+            RELEASE_SAFELY(_steam);
             [self playNext];
         }
     }

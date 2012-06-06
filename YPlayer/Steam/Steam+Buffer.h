@@ -33,6 +33,7 @@
 - (void)stopBuffering;
 - (void)startBuffering;
 - (BOOL)bufferThreadIsRunning;
+- (BOOL)hasBuffers;
 - (void)waitForBufferingStopped;
 - (CFReadStreamRef)scheduleNewReadStream;
 - (void)unscheduleAndCloseReadStream:(CFReadStreamRef)readStreamRef;

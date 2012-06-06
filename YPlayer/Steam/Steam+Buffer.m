@@ -128,11 +128,20 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
     return running;
 }
 
+- (BOOL)hasBuffers
+{
+    BOOL hasBuffers = NO;
+    [_bufferCondition lock];
+    hasBuffers = (0 != [_buffers count]);
+    [_bufferCondition unlock];
+    return hasBuffers;
+}
+
 - (void)waitForBufferingStopped
 {
     STEAM_LOG(STEAM_DEBUG_BUFFER, @"waiting for buffering stopped");
     [_networkCondition lock];
-    while (!_networkThreadStarted) {
+    while (_networkThreadStarted) {
         [_networkCondition wait];
     }
     [_networkCondition unlock];

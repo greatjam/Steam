@@ -71,7 +71,7 @@ extern NSString * const SteamBufferedNotification;
 extern NSString * const SteamAudioStateChangedNotification;
 
 
-static const int kAudioQueueBuffersNum = 3;
+static const int kAudioQueueBuffersNum = 4;
 
 @interface Steam : NSObject
 {
@@ -137,4 +137,6 @@ static const int kAudioQueueBuffersNum = 3;
 - (void)play;
 - (void)prebuffer; //在开始电台之前，预先加载缓冲音频数据
 - (void)waitForStopping;
+- (NSTimeInterval)elapsedTime;
+- (NSTimeInterval)duration;
 @end

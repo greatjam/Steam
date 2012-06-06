@@ -218,4 +218,14 @@ IMPLEMENT_NOTIFICATION(SteamBufferedNotification);
 #endif
 }
 
+- (NSTimeInterval)elapsedTime
+{
+    return [self audioElapsedTime];
+}
+
+- (NSTimeInterval)duration
+{
+    return [self audioDuration];
+}
+
 @end

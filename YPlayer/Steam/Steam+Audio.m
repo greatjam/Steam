@@ -145,7 +145,7 @@ void myAudioQueuePropertyListenerProc(
 {
     STEAM_LOG(STEAM_DEBUG_AUDIO, @"waiting for audio stopped");
     [_audioThreadCondition lock];
-    while (!_audioThreadStarted) {
+    while (_audioThreadStarted) {
         [_audioThreadCondition wait];
     }
     [_audioThreadCondition unlock];
@@ -178,6 +178,28 @@ void myAudioQueuePropertyListenerProc(
     }
     [_audioQueueBufferConditionLock unlockWithCondition:AUDIOQUEUE_BUFFER_CONDITION_HASSLOT];
     [_audioQueueLock unlock];
+}
+
+- (NSTimeInterval)audioElapsedTime
+{
+    NSTimeInterval elapsedTime = 0;
+    [_audioQueueLock lock];
+    if (_audioQueueRef) {
+        AudioTimeStamp timeStamp;
+        OSStatus st = AudioQueueGetCurrentTime(_audioQueueRef, NULL, &timeStamp, NULL);
+        if (!st) {
+            @synchronized(self) {
+                elapsedTime = timeStamp.mSampleTime / _audioFormat.mSampleRate;
+            }
+        }
+    }
+    [_audioQueueLock unlock];
+    return elapsedTime;
+}
+
+- (NSTimeInterval)audioDuration
+{
+    return 0;
 }
 
 #pragma mark - state/error setter/getter
@@ -241,6 +263,8 @@ void myAudioQueuePropertyListenerProc(
             [_audioFileTypeCondition unlock];
             while (![self shouldExitAudioThread]) {
                 @autoreleasepool {
+                    //解析出来的queue buffer大小不均匀，导致三个audio queue buffer播放的时候会出现停顿
+                    //小的queuebuffer导致线程来不及准备下面的数据
                     const int MAX = 32 * 1024;
                     UInt8 buffer[MAX];
                     NSUInteger readSize = [self readBuffer:buffer bufferSize:MAX];
@@ -520,7 +544,7 @@ void myAudioQueuePropertyListenerProc(
     LOGSTATUS(@"dequeued:%d (used:%ld)", i, _audioQueueBufferUsedNumber);
     OSStatus st = 0;
     @synchronized(self) {
-        if (0 == _audioQueueBufferUsedNumber) {  //未结束下载，正在缓冲
+        if (0 == _audioQueueBufferUsedNumber && ![self hasBuffers]) {  //未结束下载，正在缓冲
             if(_audioQueueIsRunning) {
                 if(SteamBufferBuffering == self.bufferState) {
                     st = AudioQueuePause(inAQ);
