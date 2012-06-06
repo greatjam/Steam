@@ -122,7 +122,7 @@
     if ([_songs count]) {
         NSDictionary * song = [_songs objectAtIndex:0];
         [[song retain] autorelease];
-        [_songs removeObject:0];
+        [_songs removeObjectAtIndex:0];
         
         if (_steam) {
             RELEASE_SAFELY(_steam);

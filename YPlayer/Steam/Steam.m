@@ -203,19 +203,11 @@ IMPLEMENT_NOTIFICATION(SteamBufferedNotification);
 
 - (void)waitForStopping
 {
-#if NON_OBJC_ARC
-    [self retain];
-#else
-    Steam * SELF = self;
-#endif
     [self waitForBufferingStopped];
     [self waitForAudioStopped];
     
     self.state = SteamStopped;
     STEAM_LOG(STEAM_DEBUG, @"stopped");
-#if NON_OBJC_ARC
-    [self release];
-#endif
 }
 
 - (NSTimeInterval)elapsedTime

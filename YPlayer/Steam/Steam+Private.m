@@ -29,7 +29,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:nil];
     }
     else {
-        [self performSelectorOnMainThread:@selector(postNotificationName:) withObject:nil waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(postNotificationName:) withObject:name waitUntilDone:NO];
     }
 }
 
