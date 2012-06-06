@@ -454,7 +454,7 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
         if (NULL == _httpHeaderRef) {
             _httpHeaderRef = (CFHTTPMessageRef)CFReadStreamCopyProperty(readStreamRef, kCFStreamPropertyHTTPResponseHeader);
             UInt32 statusCode = CFHTTPMessageGetResponseStatusCode(_httpHeaderRef);
-            if (200 == statusCode) {
+            if (200 == statusCode || 206 == statusCode) {
                 CFStringRef string = CFHTTPMessageCopyHeaderFieldValue(_httpHeaderRef, CFSTR("Content-Length"));
                 if (string) {
                     SInt32 contentLength = CFStringGetIntValue(string);
@@ -478,7 +478,7 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
                 CFRELEASE_SAFELY(string);
             }
             else {
-                [self failedBufferingReadStream:readStreamRef WithError:SteamBufferErrorHTTPStatusNot200];
+                [self failedBufferingReadStream:readStreamRef WithError:SteamBufferErrorHTTPStatusNotSucceeded];
             }
         }
     }
@@ -500,7 +500,7 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
             case SteamBufferErrorNotSetupReadStream:
                 LOGSTATUS(@"CFReadStreamSetClient failed");
                 break;
-            case SteamBufferErrorHTTPStatusNot200:
+            case SteamBufferErrorHTTPStatusNotSucceeded:
                 @synchronized(self) {
                     if (_httpHeaderRef) {
                         CFStringRef myStatusLine = CFHTTPMessageCopyResponseStatusLine(_httpHeaderRef);
@@ -509,7 +509,7 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
                         CFRELEASE_SAFELY(myStatusLine);
                     }
                     else {
-                        LOGSTATUS(@"HTTP response is not 200");
+                        LOGSTATUS(@"HTTP response is not 200 or 206");
                     }
                 }
                 break;
