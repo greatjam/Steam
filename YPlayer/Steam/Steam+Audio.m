@@ -235,11 +235,6 @@ void myAudioQueuePropertyListenerProc(
 
 - (void)audioWorkerThread:(id)object
 {
-#if NON_OBJC_ARC
-    [self retain];
-#else
-    Steam * SELF = self;
-#endif
     @autoreleasepool {
         if (SteamAudioThreadStarted == self.audioState) {
             STEAM_LOG(STEAM_DEBUG_AUDIO, @"audio thread started");
@@ -295,9 +290,6 @@ void myAudioQueuePropertyListenerProc(
             STEAM_LOG(STEAM_DEBUG_AUDIO, @"audio worker thread exited");
         }//if
     }//autorelease
-#if NON_OBJC_ARC
-    [self retain];
-#endif
 }
 
 - (BOOL)shouldExitAudioThread
