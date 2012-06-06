@@ -442,6 +442,9 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
                 if ([self bufferThreadIsRunning]) {
                     [NSThread sleepForTimeInterval:0.5];
                 }
+                else {
+                    break;
+                }
             }
         }
     }

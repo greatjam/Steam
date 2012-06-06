@@ -136,5 +136,5 @@ static const int kAudioQueueBuffersNum = 3;
 - (void)pause;
 - (void)play;
 - (void)prebuffer; //在开始电台之前，预先加载缓冲音频数据
-
+- (void)waitForStopping;
 @end

@@ -76,20 +76,7 @@
 
 - (IBAction)startPlay:(id)sender
 {
-    ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://www.douban.com/j/app/radio/people?type=n&channel=1&app_name=radio_iphone&version=83"]];
-    [request setCompletionBlock:^{
-        NSString * json = request.responseString;
-        RELEASE_SAFELY(_songs);
-        id object = [json objectFromJSONString];
-        if ([object isKindOfClass:[NSDictionary class]]) {
-            if(0 == [[object objectForKey:@"r"] intValue]) {
-                _songs = [[object objectForKey:@"song"] mutableCopy];
-                [self playNext];
-            }
-        }
-    }];
-    self.playButton.titleLabel.text = @"Sending request";
-    [request startAsynchronous];
+    [self playNext];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -113,6 +100,9 @@
     }
     else {
         self.playButton.titleLabel.text = @"Play";
+        if (SteamStopped == _steam.state) {
+            [self playNext];
+        }
     }
 }
 
@@ -139,6 +129,22 @@
         NSURL * url = [NSURL URLWithString:[song objectForKey:@"url"]];
         _steam = [[Steam alloc] initWithURL:url];
         [_steam play];
+    }
+    else {
+        ASIHTTPRequest * request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://www.douban.com/j/app/radio/people?type=n&channel=1&app_name=radio_iphone&version=83"]];
+        [request setCompletionBlock:^{
+            NSString * json = request.responseString;
+            RELEASE_SAFELY(_songs);
+            id object = [json objectFromJSONString];
+            if ([object isKindOfClass:[NSDictionary class]]) {
+                if(0 == [[object objectForKey:@"r"] intValue]) {
+                    _songs = [[object objectForKey:@"song"] mutableCopy];
+                    [self playNext];
+                }
+            }
+        }];
+        self.playButton.titleLabel.text = @"Sending request";
+        [request startAsynchronous];
     }
 }
 

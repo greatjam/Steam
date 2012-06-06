@@ -133,7 +133,7 @@ IMPLEMENT_NOTIFICATION(SteamBufferedNotification);
 #if NON_OBJC_ARC
     [super dealloc];
 #endif
-    STEAM_LOG(STEAM_DEBUG, @"");
+    STEAM_LOG(STEAM_DEBUG, @"dealloced");
 }
 
 - (void)setState:(SteamState)state
@@ -203,11 +203,19 @@ IMPLEMENT_NOTIFICATION(SteamBufferedNotification);
 
 - (void)waitForStopping
 {
+#if NON_OBJC_ARC
+    [self retain];
+#else
+    Steam * SELF = self;
+#endif
     [self waitForBufferingStopped];
     [self waitForAudioStopped];
     
     self.state = SteamStopped;
     STEAM_LOG(STEAM_DEBUG, @"stopped");
+#if NON_OBJC_ARC
+    [self release];
+#endif
 }
 
 @end

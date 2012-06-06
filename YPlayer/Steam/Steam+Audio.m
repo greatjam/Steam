@@ -568,6 +568,7 @@ void myAudioQueuePropertyListenerProc(
                         self.audioState = SteamAudioStopped;
                         _audioQueueIsRunning = NO;
                     }
+                    [self performSelectorInBackground:@selector(waitForStopping) withObject:nil];
                 }
             }
             else {
