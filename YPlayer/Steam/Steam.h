@@ -64,6 +64,7 @@ typedef enum SteamAudioState {
 
 typedef enum SteamAudioError {
     SteamAudioErrorNone,
+    SteamAudioErrorInsufficientMemory,
 }SteamAudioError;
 
 extern NSString * const SteamStateChangedNotification;
@@ -72,7 +73,7 @@ extern NSString * const SteamBufferedNotification;
 extern NSString * const SteamAudioStateChangedNotification;
 
 
-static const int kAudioQueueBuffersNum = 4;
+static const int kAudioQueueBuffersNum = 3;
 
 @interface Steam : NSObject
 {
@@ -104,7 +105,7 @@ static const int kAudioQueueBuffersNum = 4;
     
     //音频播放
     NSThread * _audioThread;
-    NSCondition * _audioThreadCondition;
+    NSCondition * _audioThreadCondition; //用于等待线程退出
     BOOL _audioThreadStarted;
     SteamAudioState _audioState;
     SteamAudioError _audioError;
@@ -112,12 +113,13 @@ static const int kAudioQueueBuffersNum = 4;
     //AudioQueue结构
     NSLock * _audioQueueLock;
     AudioQueueRef _audioQueueRef;
-    AudioStreamBasicDescription _audioFormat;
-    UInt64 _currentPacket;
     BOOL _audioQueueIsRunning;
     
+    AudioStreamBasicDescription _audioFormat;
+    
     NSConditionLock * _audioQueueBufferConditionLock;
-    AudioQueueBufferRef _audioQueueBuffers[kAudioQueueBuffersNum];
+    AudioQueueBufferRef *_audioQueueBuffers;
+    UInt32 _audioQueueBuffersNum;
     UInt32 _audioQueueBufferUsedStartIndex;
     UInt32 _audioQueueBufferUsedNumber;
 }

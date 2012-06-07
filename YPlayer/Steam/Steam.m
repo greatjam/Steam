@@ -84,9 +84,9 @@ IMPLEMENT_NOTIFICATION(SteamBufferedNotification);
         _audioQueueBufferConditionLock = [[NSConditionLock alloc] initWithCondition:AUDIOQUEUE_BUFFER_CONDITION_HASSLOT];
         [_audioQueueBufferConditionLock setName:@"audioqueue buffer condition lock"];
         
-        _currentPacket = 0;
         _audioQueueBufferUsedStartIndex = 0;
         _audioQueueBufferUsedNumber = 0;
+        _audioQueueBuffersNum = kAudioQueueBuffersNum;
     }
     return self;
 }

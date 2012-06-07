@@ -91,30 +91,35 @@
 
 -(void) steamStateChanged:(NSNotification *)notification
 {
-    LOGSTATUS(@"%d", _steam.state);
-    if (SteamWorking == _steam.state) {
-        self.playButton.titleLabel.text = @"Pause";
-    }
-    else if(SteamPrebuffering == _steam.state) {
-        self.playButton.titleLabel.text = @"Prebuffering";
-    }
-    else {
-        self.playButton.titleLabel.text = @"Play";
-        if (SteamStopped == _steam.state) {
-            RELEASE_SAFELY(_steam);
-            [self playNext];
+    Steam * s = notification.object;
+    LOGSTATUS(@"%d", s.state);
+    if(s == _steam) {
+        if (SteamWorking == _steam.state) {
+            self.playButton.titleLabel.text = @"Pause";
+        }
+        else if(SteamPrebuffering == _steam.state) {
+            self.playButton.titleLabel.text = @"Prebuffering";
+        }
+        else {
+            self.playButton.titleLabel.text = @"Play";
+            if (SteamStopped == _steam.state) {
+                RELEASE_SAFELY(_steam);
+                [self playNext];
+            }
         }
     }
 }
 
 -(void) steamBufferStateChanged:(NSNotification *)notification
 {
-    LOGSTATUS(@"%d", _steam.bufferState);
+    Steam * s = notification.object;
+    LOGSTATUS(@"%d", s.bufferState);
 }
 
 -(void) steamAudioStateChanged:(NSNotification *)notification
 {
-    LOGSTATUS(@"%d", _steam.audioState);
+    Steam * s = notification.object;
+    LOGSTATUS(@"%d", s.audioState);
 }
 
 - (void)playNext
@@ -125,8 +130,10 @@
         [_songs removeObjectAtIndex:0];
         
         if (_steam) {
+            [_steam stop];
             RELEASE_SAFELY(_steam);
         }
+        LOGSTATUS(@"new steam");
         NSURL * url = [NSURL URLWithString:[song objectForKey:@"url"]];
         _steam = [[Steam alloc] initWithURL:url];
         [_steam play];
