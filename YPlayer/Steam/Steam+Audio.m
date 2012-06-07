@@ -431,23 +431,29 @@ void myAudioQueuePropertyListenerProc(
                             break;
                         }
                     }
-                    assert(copiedPackets);
-                    st = AudioQueueEnqueueBuffer(_audioQueueRef, *refAQBuf, isVBR?inNumberPackets:0, isVBR?packetDescripton:NULL);
-                    
-                    if (!st) {
+                    /*//如果队列小于两个，或者buffer有数据，但不足以填充新数据，则立刻
+                    //将buffer入列，否则，则尽可能充满Buffer
+                    //
+                    if ((copiedPackets && _audioQueueBufferUsedNumber < 2)
+                        || (!copiedPackets && (*refAQBuf)->mAudioDataByteSize)) */
+                    {
+                        st = AudioQueueEnqueueBuffer(_audioQueueRef, *refAQBuf, isVBR?inNumberPackets:0, isVBR?packetDescripton:NULL);
+                        
+                        if (!st) {
 #ifdef DEBUG
-                        static int i = 0;
-                        i ++;
-                        STEAM_LOG(STEAM_DEBUG_AUDIO_EN_DEQUEUE, @"enqueued:%d (%ld bytes, %ld packets)", i, (*refAQBuf)->mAudioDataByteSize, (*refAQBuf)->mPacketDescriptionCount);
+                            static int i = 0;
+                            i ++;
+                            STEAM_LOG(STEAM_DEBUG_AUDIO_EN_DEQUEUE, @"enqueued:%d (%ld bytes, %ld packets)", i, (*refAQBuf)->mAudioDataByteSize, (*refAQBuf)->mPacketDescriptionCount);
 #endif
-                        _audioQueueBufferUsedNumber ++;
-                        if (SteamWorking == self.state) {
-                            if(NO == _audioQueueIsRunning 
-                               && ((SteamBufferFinished == self.bufferState || SteamBufferFailed == self.bufferState) || _audioQueueBuffersNum == _audioQueueBufferUsedNumber)) {
-                                st = AudioQueueStart(_audioQueueRef, NULL);
-                            }
-                            else if(SteamAudioPaused == self.audioState){
-                                st = AudioQueueStart(_audioQueueRef, NULL);
+                            _audioQueueBufferUsedNumber ++;
+                            if (SteamWorking == self.state) {
+                                if(NO == _audioQueueIsRunning 
+                                   && ((SteamBufferFinished == self.bufferState || SteamBufferFailed == self.bufferState) || _audioQueueBuffersNum == _audioQueueBufferUsedNumber)) {
+                                    st = AudioQueueStart(_audioQueueRef, NULL);
+                                }
+                                else if(SteamAudioPaused == self.audioState){
+                                    st = AudioQueueStart(_audioQueueRef, NULL);
+                                }
                             }
                         }
                     }
