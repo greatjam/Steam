@@ -25,6 +25,9 @@
 
 #import "SteamHelper.h"
 
+static const UInt32 kDefaultPacketBytesSize = 2048;
+static const UInt32 kDefaultPacketNum = 256;
+
 void myAudioQueueOutputCallback(
                                  void *                  inUserData,
                                  AudioQueueRef           inAQ,
@@ -245,6 +248,12 @@ void myAudioQueuePropertyListenerProc(
     }
 }
 
+- (void)failedWithSteamAudioError:(SteamAudioError)error
+{
+    self.audioError = error;
+    [self stop];
+}
+
 - (void)audioWorkerThread:(id)object
 {
     @autoreleasepool {
@@ -272,7 +281,7 @@ void myAudioQueuePropertyListenerProc(
             [_audioQueueBufferConditionLock lock];
             _audioQueueBuffers = (AudioQueueBufferRef *)malloc(sizeof(AudioQueueBufferRef) * _audioQueueBuffersNum);
             if (NULL == _audioQueueBuffers) {
-                self.audioError = SteamAudioErrorInsufficientMemory;
+                [self failedWithSteamAudioError:SteamAudioErrorInsufficientMemory];
                 _audioQueueBuffersNum = 0;
             }
             else {
@@ -280,27 +289,33 @@ void myAudioQueuePropertyListenerProc(
             }
             [_audioQueueBufferConditionLock unlock];
             
-            while (![self shouldExitAudioThread]) {
-                @autoreleasepool {
-                    //解析出来的queue buffer大小不均匀，导致三个audio queue buffer播放的时候会出现停顿
-                    //小的queuebuffer导致线程来不及准备下面的数据
-                    const int MAX = 128 * 1024;//过大会导致栈溢出
-                    UInt8 buffer[MAX];
-                    NSUInteger readSize = [self readBuffer:buffer bufferSize:MAX];
-                    if (readSize) {
-                        STEAM_LOG(STEAM_DEBUG_AUDIO, @"read size:%u", readSize);
-                        st = AudioFileStreamParseBytes(audioFileStream, readSize, buffer, 0);
-                        if (st) {
-                            [self audioFileStream:audioFileStream failedWithOSStatus:st as:@"AudioFileStreamParseBytes"];
+            UInt32 bufferSize = kDefaultPacketBytesSize;
+            UInt8 * buffer = (UInt8 *)malloc(sizeof(UInt8) * kDefaultPacketBytesSize);
+            if (buffer) {
+                while (![self shouldExitAudioThread]) {
+                    @autoreleasepool {
+                        //解析出来的queue buffer大小不均匀，导致三个audio queue buffer播放的时候会出现停顿
+                        //小的queuebuffer导致线程来不及准备下面的数据
+                        
+                        NSUInteger readSize = [self readBuffer:buffer bufferSize:bufferSize];
+                        if (readSize) {
+                            STEAM_LOG(STEAM_DEBUG_AUDIO, @"read size:%u", readSize);
+                            st = AudioFileStreamParseBytes(audioFileStream, readSize, buffer, 0);
+                            if (st) {
+                                [self audioFileStream:audioFileStream failedWithOSStatus:st as:@"AudioFileStreamParseBytes"];
+                            }
+                        }
+                        else {
+                            if (![self bufferThreadIsRunning]) {
+                                break;
+                            }
                         }
                     }
-                    else {
-                        if (![self bufferThreadIsRunning]) {
-                            break;
-                        }
-                    }
+                    [NSThread sleepForTimeInterval:0.1];
                 }
-                [NSThread sleepForTimeInterval:0.1];
+            }
+            else {
+                [self failedWithSteamAudioError:SteamAudioErrorInsufficientMemory];
             }
             
             [_audioQueueBufferConditionLock lock];
@@ -356,14 +371,17 @@ void myAudioQueuePropertyListenerProc(
                     index -= _audioQueueBuffersNum;
                     assert(index < _audioQueueBufferUsedStartIndex);
                 }
+                AudioStreamPacketDescription * packetDesc = packetDescripton + copiedPackets;
+                UInt32 singlePakcetSize = packetDesc->mDataByteSize;
+                
                 AudioQueueBufferRef * refAQBuf = _audioQueueBuffers + index;
                 [_audioQueueLock lock];
                 if (*refAQBuf) {
                     BOOL needFree = NO;
-                    if ((*refAQBuf)->mAudioDataBytesCapacity != inNumberBytes) {
+                    if ((*refAQBuf)->mAudioDataBytesCapacity < singlePakcetSize) {
                         needFree = YES;
                     }
-                    else if (isVBR && packetDescripton && (*refAQBuf)->mPacketDescriptionCapacity != inNumberPackets) {
+                    else if (isVBR && packetDescripton && (*refAQBuf)->mPacketDescriptionCapacity < 1) {
                         needFree = YES;
                     }
                     if (needFree) {
@@ -372,41 +390,64 @@ void myAudioQueuePropertyListenerProc(
                     }
                 }
                 if (NULL == *refAQBuf) {
+                    UInt32 allocatedBufferSize = MAX(_maxPacketBufferSize, singlePakcetSize);
                     if (isVBR) {
-                        st = AudioQueueAllocateBufferWithPacketDescriptions(_audioQueueRef, inNumberBytes, inNumberPackets, refAQBuf);
+                        st = AudioQueueAllocateBufferWithPacketDescriptions(_audioQueueRef, allocatedBufferSize, kDefaultPacketNum, refAQBuf);
                     }
                     else {
-                        st = AudioQueueAllocateBuffer(_audioQueueRef, inNumberBytes, refAQBuf);
+                        st = AudioQueueAllocateBuffer(_audioQueueRef, allocatedBufferSize, refAQBuf);
                     }
                 }
                 
                 if (!st && *refAQBuf) {
-                    if ((*refAQBuf)->mAudioDataBytesCapacity >= inNumberBytes) {
-                        memcpy((*refAQBuf)->mAudioData, inputData, inNumberBytes);
-                        (*refAQBuf)->mAudioDataByteSize = inNumberBytes;
-                        if (isVBR && (*refAQBuf)->mPacketDescriptionCapacity >= inNumberPackets) {
-                            memcpy((*refAQBuf)->mPacketDescriptions, packetDescripton, sizeof(AudioStreamPacketDescription) * inNumberPackets);
-                            (*refAQBuf)->mPacketDescriptionCount = inNumberPackets;
-                            copiedPackets += inNumberPackets;
-                        }
+                    while(copiedPackets < inNumberPackets) {
+                        AudioStreamPacketDescription * packetDesc = packetDescripton + copiedPackets;
+                        UInt32 audioDataSize = (*refAQBuf)->mAudioDataByteSize;
+                        if (isVBR) {
+                            UInt32 packetCount = (*refAQBuf)->mPacketDescriptionCount;
+                            if ((packetCount + 1 <= (*refAQBuf)->mPacketDescriptionCapacity)
+                                && (audioDataSize + packetDesc->mDataByteSize <= (*refAQBuf)->mAudioDataBytesCapacity)) {
+                                memcpy((*refAQBuf)->mAudioData + audioDataSize, 
+                                       (UInt8*)inputData + packetDesc->mStartOffset, 
+                                       packetDesc->mDataByteSize);
+                                memcpy((*refAQBuf)->mPacketDescriptions + packetCount, packetDesc, sizeof(AudioStreamPacketDescription));
+                                (*refAQBuf)->mPacketDescriptionCount ++;
+                                (*refAQBuf)->mAudioDataByteSize += packetDesc->mDataByteSize;
+                                copiedPackets ++;
+                            }
+                            else {
+                                break;
+                            }
                         
-                        st = AudioQueueEnqueueBuffer(_audioQueueRef, *refAQBuf, isVBR?inNumberPackets:0, isVBR?packetDescripton:NULL);
-
-                        if (!st) {
+                        }
+                        else if (audioDataSize + packetDesc->mDataByteSize <= (*refAQBuf)->mAudioDataBytesCapacity) {
+                            memcpy((*refAQBuf)->mAudioData + audioDataSize, 
+                                   (UInt8*)inputData + packetDesc->mStartOffset, 
+                                   packetDesc->mDataByteSize);
+                            (*refAQBuf)->mAudioDataByteSize += packetDesc->mDataByteSize;
+                            copiedPackets ++;
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    assert(copiedPackets);
+                    st = AudioQueueEnqueueBuffer(_audioQueueRef, *refAQBuf, isVBR?inNumberPackets:0, isVBR?packetDescripton:NULL);
+                    
+                    if (!st) {
 #ifdef DEBUG
-                            static int i = 0;
-                            i ++;
-                            LOGSTATUS(@"enqueued:%d (%ld bytes, %ld packets)", i, inNumberBytes, inNumberPackets);
+                        static int i = 0;
+                        i ++;
+                        STEAM_LOG(STEAM_DEBUG_AUDIO_EN_DEQUEUE, @"enqueued:%d (%ld bytes, %ld packets)", i, (*refAQBuf)->mAudioDataByteSize, (*refAQBuf)->mPacketDescriptionCount);
 #endif
-                            _audioQueueBufferUsedNumber ++;
-                            if (SteamWorking == self.state) {
-                                if(NO == _audioQueueIsRunning 
-                                   && ((SteamBufferFinished == self.bufferState || SteamBufferFailed == self.bufferState) || _audioQueueBuffersNum == _audioQueueBufferUsedNumber)) {
-                                    st = AudioQueueStart(_audioQueueRef, NULL);
-                                }
-                                else if(SteamAudioPaused == self.audioState){
-                                    st = AudioQueueStart(_audioQueueRef, NULL);
-                                }
+                        _audioQueueBufferUsedNumber ++;
+                        if (SteamWorking == self.state) {
+                            if(NO == _audioQueueIsRunning 
+                               && ((SteamBufferFinished == self.bufferState || SteamBufferFailed == self.bufferState) || _audioQueueBuffersNum == _audioQueueBufferUsedNumber)) {
+                                st = AudioQueueStart(_audioQueueRef, NULL);
+                            }
+                            else if(SteamAudioPaused == self.audioState){
+                                st = AudioQueueStart(_audioQueueRef, NULL);
                             }
                         }
                     }
@@ -467,6 +508,20 @@ void myAudioQueuePropertyListenerProc(
                             }
                         }
                     }
+                    UInt32 packetSize = 0;
+                    UInt32 size = sizeof(packetSize);
+                    fsSt = AudioFileStreamGetProperty(audioFileStream, kAudioFileStreamProperty_PacketSizeUpperBound, &size, &packetSize);
+                    if (fsSt || !packetSize) {
+                        fsSt = AudioFileStreamGetProperty(audioFileStream, kAudioFileStreamProperty_MaximumPacketSize, &size, &packetSize);
+                    }
+                    [_audioQueueBufferConditionLock lock ];
+                    if (packetSize) {
+                        _maxPacketBufferSize = packetSize;
+                    }
+                    else {
+                        _maxPacketBufferSize = kDefaultPacketBytesSize; //initial packetSize
+                    }
+                    [_audioQueueBufferConditionLock unlock];
                 }
                 else {
                 }
@@ -571,10 +626,16 @@ void myAudioQueuePropertyListenerProc(
     if (_audioQueueBufferUsedStartIndex >= _audioQueueBuffersNum) {
         _audioQueueBufferUsedStartIndex = 0;
     }
+#ifdef DEBUG
     static int i = 0;
     _audioQueueBufferUsedNumber --;
     i ++;
-    LOGSTATUS(@"dequeued:%d (used:%ld)", i, _audioQueueBufferUsedNumber);
+    STEAM_LOG(STEAM_DEBUG_AUDIO_EN_DEQUEUE, @"dequeued:%d (used:%ld)", i, _audioQueueBufferUsedNumber);
+#endif
+    
+    aqBuffer->mAudioDataByteSize = 0;
+    aqBuffer->mPacketDescriptionCount = 0;
+    
     OSStatus st = 0;
     @synchronized(self) {
         if (0 == _audioQueueBufferUsedNumber && ![self hasBuffers]) {  //未结束下载，正在缓冲

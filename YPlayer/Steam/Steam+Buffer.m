@@ -301,6 +301,7 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
             if (self.bufferedLength) {
                 NSString * s = [NSString stringWithFormat:@"bytes=%u-", self.bufferedLength];
                 CFHTTPMessageSetHeaderFieldValue(httpMessageRef, CFSTR("Range"), (CFStringRef)s);
+                STEAM_LOG(STEAM_DEBUG_BUFFER, @"paritial request:%@", s);
             }
             readStreamRef = CFReadStreamCreateForHTTPRequest(NULL, httpMessageRef);
             CFRelease(httpMessageRef);
@@ -473,22 +474,21 @@ void ReadStreamClientCallback(CFReadStreamRef stream, CFStreamEventType type, vo
                     [_bufferCondition unlock];
                     self.bufferError = SteamBufferErrorHttpRangeRequestNotSupported;
                 }
-                else {
-                    string = CFHTTPMessageCopyHeaderFieldValue(_httpHeaderRef, CFSTR("Content-Type"));
-                    AudioFileTypeID typeID = kAudioFileMP3Type;
-                    if (string) {
-                        NSString * nsString = (NSString *)string;
-                        typeID = [Steam fileTypeFromContentType:nsString];
-                    }
-                    else {
-                        typeID = [Steam fileTypeFromURL:self.url];
-                    }
-                    [_audioFileTypeCondition lock];
-                    _audioFileTypeHint = typeID;
-                    [_audioFileTypeCondition signal];
-                    [_audioFileTypeCondition unlock];
-                    CFRELEASE_SAFELY(string);
+
+                string = CFHTTPMessageCopyHeaderFieldValue(_httpHeaderRef, CFSTR("Content-Type"));
+                AudioFileTypeID typeID = kAudioFileMP3Type;
+                if (string) {
+                    NSString * nsString = (NSString *)string;
+                    typeID = [Steam fileTypeFromContentType:nsString];
                 }
+                else {
+                    typeID = [Steam fileTypeFromURL:self.url];
+                }
+                [_audioFileTypeCondition lock];
+                _audioFileTypeHint = typeID;
+                [_audioFileTypeCondition signal];
+                [_audioFileTypeCondition unlock];
+                CFRELEASE_SAFELY(string);
             }
             else {
                 [self failedBufferingReadStream:readStreamRef WithError:SteamBufferErrorHTTPStatusNotSucceeded];

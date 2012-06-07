@@ -51,5 +51,5 @@
 
 - (void)audioQueue:(AudioQueueRef)audioQueue failedWithOSStatus:(OSStatus)status as:(NSString *)as;
 - (void)audioFileStream:(AudioFileStreamID)audioFileStream failedWithOSStatus:(OSStatus)err as:(NSString *)as;
-
+- (void)failedWithSteamAudioError:(SteamAudioError)error;
 @end

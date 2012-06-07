@@ -49,6 +49,7 @@ typedef enum SteamBufferError {
     SteamBufferErrorHTTPStatusNotSucceeded,
     SteamBufferErrorStreamErrorOccurred,
     SteamBufferErrorHttpRangeRequestNotSupported,
+    SteamBufferErrorInsufficientMemory,
     SteamBufferErrorUnknown,
 }SteamBufferError;
 
@@ -116,6 +117,8 @@ static const int kAudioQueueBuffersNum = 3;
     BOOL _audioQueueIsRunning;
     
     AudioStreamBasicDescription _audioFormat;
+    UInt32 _maxPacketBufferSize;
+    UInt32 _maxPacketNum;
     
     NSConditionLock * _audioQueueBufferConditionLock;
     AudioQueueBufferRef *_audioQueueBuffers;
